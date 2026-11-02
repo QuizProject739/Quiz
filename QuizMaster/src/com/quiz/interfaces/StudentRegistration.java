@@ -1,6 +1,12 @@
 package com.quiz.interfaces;
 
-public interface StudentRegistration {
+import java.sql.SQLException;
+import java.util.Scanner;
 
-	public void getStudentRegistration();
+import com.quiz.Student;
+
+public interface StudentRegistration {
+	public Student getStudentInput(Scanner scanner);
+	
+	public boolean registerStudent(Student s) throws SQLException;
 }
