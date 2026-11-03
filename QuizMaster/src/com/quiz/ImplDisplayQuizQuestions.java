@@ -24,7 +24,7 @@ public class ImplDisplayQuizQuestions implements DisplayQuizQuestions{
         try {
             con = DBConnection.getConnection();
 
-            ps = con.prepareStatement("SELECT * FROM question");
+            ps = con.prepareStatement("SELECT * FROM question_bank");
 
             rs = ps.executeQuery();
 
@@ -37,7 +37,7 @@ public class ImplDisplayQuizQuestions implements DisplayQuizQuestions{
                 q.setOption2(rs.getString("option_b"));
                 q.setOption3(rs.getString("option_c"));
                 q.setOption4(rs.getString("option_d"));
-                q.setCorrectOption(rs.getInt("correct_answer"));
+                q.setCorrectOption(rs.getString("correct_answer"));
 
                 questions.add(q);
             }
@@ -75,30 +75,27 @@ public class ImplDisplayQuizQuestions implements DisplayQuizQuestions{
             System.out.println("\nQuestion " + (i + 1) + ":");
             System.out.println(q.getQuestionTest());
 
-            System.out.println("1. " + q.getOption1());
-            System.out.println("2. " + q.getOption2());
-            System.out.println("3. " + q.getOption3());
-            System.out.println("4. " + q.getOption4());
+            System.out.println("a. " + q.getOption1());
+            System.out.println("b. " + q.getOption2());
+            System.out.println("c. " + q.getOption3());
+            System.out.println("d. " + q.getOption4());
 
-            int answer;
+            String answer;
 
             while (true) {
-                System.out.print("Enter your answer (1-4): ");
+                System.out.print("Enter your answer (a or b or c or d): ");
 
-                if (sc.hasNextInt()) {
-                    answer = sc.nextInt();
+                answer=sc.next().toLowerCase();
 
-                    if (answer >= 1 && answer <= 4) {
+                    if ((answer.equals("a")||answer.equals("b")||answer.equals("c")||answer.equals("d"))) {
+                    	
                         break;
                     }
-                } else {
-                    sc.next();
-                }
+                    System.out.println("Invalid option! Enter a to d.");
+                }       
+            
 
-                System.out.println("Invalid option! Enter a to d.");
-            }
-
-            if (answer == q.getCorrectOption()) {
+            if (answer.equalsIgnoreCase(q.getCorrectOption().trim())) {
                 score++;
             }
         }
@@ -135,18 +132,32 @@ public class ImplDisplayQuizQuestions implements DisplayQuizQuestions{
 
         Connection con = null;
         PreparedStatement ps = null;
-
+        PreparedStatement ps1 = null;
+        String username=null;
+        
         try {
             // Step 1 - Establish connection
             con = DBConnection.getConnection();
 
             // Step 2 - Create PreparedStatement
+            ps1 = con.prepareStatement(
+                    "select username from student where id=?");
+            
+            ps1.setInt(1, studentId);
+            
+            ResultSet rs=ps1.executeQuery();
+            
+            if(rs.next()) {
+            	username=rs.getString("username");
+            }
+            
             ps = con.prepareStatement(
-                "INSERT INTO score (student_id, total_score, grade) VALUES (?, ?, ?)");
+                "INSERT INTO student_result (id, username,score, grade) VALUES (?,?, ?, ?)");
 
             ps.setInt(1, studentId);
-            ps.setInt(2, score);
-            ps.setString(3, grade);
+            ps.setString(2, username);
+            ps.setInt(3, score);
+            ps.setString(4, grade);
 
             // Step 3 - Execute SQL statement
             int status = ps.executeUpdate();

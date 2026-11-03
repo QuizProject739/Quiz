@@ -23,7 +23,7 @@
 
 	            // Step 2 - Create PreparedStatement
 	            ps = con.prepareStatement(
-	                "SELECT total_score, grade FROM score WHERE student_id = ?"
+	                "SELECT score, grade FROM student_result WHERE id = ?"
 	            );
 
 	            // Step 3 - Set student ID
@@ -34,7 +34,7 @@
 
 	            // Step 5 - Display student score
 	            if (rs.next()) {
-	                System.out.println("Your Score: " + rs.getInt("total_score"));
+	                System.out.println("Your Score: " + rs.getInt("score"));
 	                System.out.println("Your Grade: " + rs.getString("grade"));
 	            } else {
 	                System.out.println("No score found for this student.");
