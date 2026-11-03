@@ -2,5 +2,5 @@ package com.quiz.interfaces;
 
 public interface EditExistingQuestion {
 
-	public void getEditExistingQuestion();
+	public void getEditExistingQuestion() throws Exception;
 }

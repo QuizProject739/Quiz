@@ -2,5 +2,5 @@ package com.quiz.interfaces;
 
 public interface DeleteQuestionByAdmin {
 
-	public void setDeleteQuestionByAdmin();
+	public void setDeleteQuestionByAdmin() throws Exception;
 }

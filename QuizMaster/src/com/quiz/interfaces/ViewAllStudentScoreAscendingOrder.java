@@ -2,5 +2,5 @@ package com.quiz.interfaces;
 
 public interface ViewAllStudentScoreAscendingOrder {
 
-	public void getStudentScoreByAscendingOrder();
+	public void getStudentScoreByAscendingOrder() throws Exception;
 }

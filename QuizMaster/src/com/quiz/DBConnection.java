@@ -7,7 +7,7 @@ public class DBConnection {
 		private static final String DB_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 		private static final String DB_URL = "jdbc:mysql://localhost:3306/quizmaster";
 		private static final String DB_USERNAME = "root";
-		private static final String DB_PASSWORD = "Aditi@1019";
+		private static final String DB_PASSWORD = "root";
 		
 		public Connection getConnection() {
 			Connection con = null;

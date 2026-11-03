@@ -2,5 +2,5 @@ package com.quiz.interfaces;
 
 public interface StudentScoreById {
 
-	public void getStudentScoreById(int studentId);
+	public void getStudentScoreById() throws Exception;
 }
