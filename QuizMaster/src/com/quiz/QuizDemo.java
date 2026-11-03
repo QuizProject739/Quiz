@@ -19,20 +19,30 @@ public class QuizDemo {
 		StudentLogin loginDao = new ImplStudentLogin();
 		Validation validation = new ImplValidation();
 		
+
+		  ImplDisplayQuizQuestions service = new ImplDisplayQuizQuestions();
+	      ImplViewMyScore scoreService = new ImplViewMyScore();
+	        
+
+		
 		boolean registered = false;
 		boolean exit = false;
+		boolean loggedIn = false;
 		
-		System.out.println("\n======= QUIZ MASTER =======");
-		System.out.println("1. Student Registration");
+        int studentId = 0;
+
+        System.out.println("1. Student Registration");
 		System.out.println("2. Student Login");
+        System.out.println("3. Start Quiz");
+        System.out.println("4. View My Score");
 		System.out.println("\nAdmin Operation:");
-		System.out.println("6. Add question with 4 options into database");
-		System.out.println("7. Display all students score as per ascending order");
-		System.out.println("8. Fetch student score by using id");
-		System.out.println("9. Delete the question");
-		System.out.println("10. Fetch the maximum score");
-		System.out.println("11. Edit existing questions");
-		System.out.println("12. Exit");
+		System.out.println("5. Add question with 4 options into database");
+		System.out.println("6. Display all students score as per ascending order");
+		System.out.println("7. Fetch student score by using id");
+		System.out.println("8. Delete the question");
+		System.out.println("9. Fetch the maximum score");
+		System.out.println("10. Edit existing questions");
+		System.out.println("11. Exit");
 		
 		while(!exit) {
 		System.out.println("Enter Choice: ");
@@ -64,45 +74,75 @@ public class QuizDemo {
 						break;
 					}
 					if(loginDao.login(scanner)) {
-						exit = true;
+					 loggedIn = true;
 					}
 					break;
 				
-			case "6":
+				 case "3":
+                        if(!loggedIn) {
+                        	System.out.println("please login first");
+                        	break;
+                        }
+		                
+		               System.out.print("Enter Student ID: ");
+		               studentId = Integer.parseInt(scanner.nextLine());
+
+		                int score = service.startQuiz();
+
+		                String grade = service.calculateGrade(score);
+
+		                System.out.println("Your Grade: " + grade);
+
+		                service.saveScore( studentId,score, grade);
+
+		                break;
+
+		            case "4":
+		            	
+		               System.out.print("Enter Student ID: ");
+		                int id = Integer.parseInt(scanner.nextLine());
+
+		                scoreService.viewMyScore(id);
+
+		                break;
+
+                     
+
+			case "5":
 				AddNewQuestionByAdmin addNewQuestionByAdmin=new ImplAddNewQuestionByAdmin();
 				addNewQuestionByAdmin.setAddNewQuestionsByAdmin();
 				break;
 				
-			case "7":
+			case "6":
 				ViewAllStudentScoreAscendingOrder viewAllStudentScoreAscendingOrder=new ImplViewAllStudentScoreAscendingOrder();
 				viewAllStudentScoreAscendingOrder.getStudentScoreByAscendingOrder();
 				break;
 				
-			case "8":
+			case "7":
 				StudentScoreById studentScoreById=new ImplStudentScoreById();
 				studentScoreById.getStudentScoreById();
 				break;
 				
-			case "9":
+			case "8":
 				DeleteQuestionByAdmin deleteQuestionByAdmin=new ImplDeleteQuestionByAdmin();
 				deleteQuestionByAdmin.setDeleteQuestionByAdmin();
 				break;
 				
-			case "10":
+			case "9":
 				ViewTopScorer viewTopScorer=new ImplViewTopScorer();
 				viewTopScorer.getTopScorer();
 				break;
 				
-			case "11":
+			case "10":
 				EditExistingQuestion editExistingQuestion = new ImplEditExistingQuestion();
 				editExistingQuestion.getEditExistingQuestion();
 				break;
-			case "12":
+			case "11":
 				System.out.println("Thank You");
 				exit = true;
 				continue;
 			default:
-				System.out.println("Invalid Choice! please enter between 1 to 12 only.");			
+				System.out.println("Invalid Choice! please enter between 1 to 11 only.");			
 			}
 			//---------------Do you want to continue-------
 			System.out.println("\n Do you want to continue?(yes/no)");

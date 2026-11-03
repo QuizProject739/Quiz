@@ -9,7 +9,7 @@ public class DBConnection {
 		private static final String DB_USERNAME = "root";
 		private static final String DB_PASSWORD = "root";
 		
-		public Connection getConnection() {
+		public static Connection getConnection() {
 			Connection con = null;
 			try {
 				//loading driver
